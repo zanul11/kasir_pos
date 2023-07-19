@@ -47,7 +47,15 @@ Route::middleware('auth:web')->group(function () {
     Route::prefix('barang_masuk')->group(function () {
         Route::get('/tambahbarang/{id}', [BarangmasukController::class, 'tambah_barang']);
     });
+
+    Route::get('barang_masuk/export', [BarangMasukController::class, 'export'])
+        ->name('barang_masuk.export');
     Route::resource('barang_masuk', BarangMasukController::class);
+
+
+    Route::resource('data_penjualan', SatuanController::class);
+    Route::resource('kasir', SatuanController::class);
+
 
     Route::resource('informasi', HomeController::class);
 });

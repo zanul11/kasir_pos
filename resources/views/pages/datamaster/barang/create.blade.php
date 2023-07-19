@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12 form-group">
                                     <p>Harga Jual</p>
-                                    <input id="harga_jual" type="number" name="harga_jual" class="form-control" value="{{ old('harga_jual',$barang->harga_jual??'') }}" required>
+                                    <input id="harga_jual" type="text" name="harga_jual" class="format-uang form-control" value="{{ old('harga_jual',$barang->harga_jual??'') }}" required>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12 form-group">
                                     <p>Keterangan</p>
@@ -90,9 +90,12 @@
 @endsection
 
 @push('scripts')
-
+<script src="{{asset('plugins/autonumeric/autoNumeric.js')}}"></script>
 <script>
-
+    new AutoNumeric('.format-uang', {
+        modifyValueOnWheel: false,
+        minimumValue: "0"
+    });
 </script>
 
 @endpush

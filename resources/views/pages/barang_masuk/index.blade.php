@@ -19,7 +19,7 @@
                     <!-- <h5 class="">Data {{ucwords($page_name)}}</h5> -->
                     <h3 class="">Data {{ucwords(str_replace('_', ' ',$page_name))}}</h3>
                     <div>
-                        <a href="" class="mt-2 edit-profile2" style="float: right; margin-left: 10px;">
+                        <a href="{{route('barang_masuk.export')}}" class="mt-2 edit-profile2" style="float: right; margin-left: 10px;">
                             <i data-feather="file"></i></a> <a href="{{route('barang_masuk.create')}}" class="mt-2 edit-profile">
                             <i data-feather="plus"></i></a>
                     </div>
@@ -34,7 +34,11 @@
                         </div>
                         <div class="form-group col-lg-3 col-md-4 col-xs-12">
                             <p></p>
-                            <button type="submit" class="form-control btn-primary">Filter Tanggal</button>
+                            <input name="cari" value="{{(Cache::has('cari'))?Cache::get('cari'):''}}" placeholder="Cari..." class="form-control" type="text">
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-xs-12">
+                            <p></p>
+                            <button type="submit" class="form-control btn-primary">Filter</button>
                         </div>
                     </div>
                 </form>
@@ -90,6 +94,7 @@
         responsive: true,
         lengthChange: true,
         ordering: false,
+        searching: false,
         ajax: "{!! route('barang_masuk.data') !!}",
         columns: [{
                 data: 'id',

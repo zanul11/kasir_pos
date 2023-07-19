@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BarangMasukExport;
 use App\Models\Barang;
 use App\Models\BarangMasuk;
 use App\Models\BarangMasukDetail;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use  Yajra\Datatables\DataTables;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarangMasukController extends Controller
 {
@@ -20,17 +23,30 @@ class BarangMasukController extends Controller
 
     public function data()
     {
-        $data =  BarangMasuk::with(['supplier', 'barangMasukDetail.barang']);
+        if (Cache::has('dTgl')) {
+            $from = date('Y-m-d', strtotime(Cache::get('dTgl')));
+            $to = date('Y-m-d', strtotime(Cache::get('sTgl')));
+            $data =  BarangMasuk::with('barangMasukDetail.barang')->whereBetween('tanggal', [$from, $to]);
+        } else {
+            $data =  BarangMasuk::with('barangMasukDetail.barang');
+        }
+
+        if (Cache::has('cari')) {
+            $data->with('supplier')->whereHas('supplier', function ($query) {
+                return $query->where('nama', 'like', '%' . Cache::get('cari') . '%');
+            });
+        } else {
+            $data->with('supplier');
+        }
+
 
         return DataTables::of($data)
-            // ->addColumn('user_detail', function ($data) {
-            //     return '<small> ' . $data->user . '</br>' . $data->updated_at . '</small>';
-            // })
+
             ->addColumn('barang_detal', function ($data) {
                 $table = '<center><table class=" table-bordered table-striped" style="color:black">
                 <tHead>
                 <tr>
-                <th style="width:50%">Barang</th> <th style="width:20%">Harga</th> <th style="width:10%">Qty</th> <th style="width:20%">Jumlah</th>
+                <th style="width:50%">Barang</th> <th style="width:25%">Harga</th> <th style="width:5%">Qty</th> <th style="width:20%">Jumlah</th>
                 <tr> </tHead>';
                 foreach ($data->barangMasukDetail as $dt) {
                     $table .= '
@@ -57,8 +73,21 @@ class BarangMasukController extends Controller
 
     public function index()
     {
-        // return $data =  BarangMasuk::with(['supplier', 'barangMasukDetail.barang'])
-        //     ->get();
+
+        if (isset(request()->tanggal)) {
+            $tanggal = (explode("to", str_replace(' ', '', request()->tanggal)));
+            Cache::put('dTgl', $tanggal[0]);
+            Cache::put('sTgl', $tanggal[1] ?? $tanggal[0]);
+        } else {
+            Cache::put('dTgl', date('01-m-Y'));
+            Cache::put('sTgl', date('d-m-Y'));
+        }
+
+        if (isset(request()->cari)) {
+            Cache::put('cari', request()->cari);
+        } else {
+            Cache::forget('cari');
+        }
         return view('pages.barang_masuk.index')->with($this->data);
     }
 
@@ -111,9 +140,12 @@ class BarangMasukController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+    public function export()
+    {
+        return Excel::download(new BarangMasukExport, 'barang_masuk_' . time() . '.xlsx');
+    }
+
     public function show(BarangMasuk $barangMasuk)
     {
         //

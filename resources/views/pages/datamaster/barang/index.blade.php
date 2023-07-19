@@ -89,8 +89,8 @@
                 data: 'satuan.nama',
                 name: 'satuan.nama'
             }, {
-                data: 'harga_jual',
-                name: 'harga_jual'
+                data: 'harga',
+                name: 'harga'
             }, {
                 data: 'keterangan',
                 name: 'keterangan'

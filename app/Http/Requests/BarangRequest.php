@@ -40,6 +40,7 @@ class BarangRequest extends FormRequest
         $this->merge([
             'user' => Auth::user()->name,
             'stok_awal' => $this->stok,
+            'harga_jual' =>  str_replace(',', '', $this->harga_jual),
         ]);
     }
 }

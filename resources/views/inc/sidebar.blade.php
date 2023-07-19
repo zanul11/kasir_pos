@@ -50,7 +50,7 @@
                 <ul class="collapse submenu list-unstyled {{ ($menu['url'] === $category_name) ? 'show' : '' }}" id="{{$menu['url']}}" data-parent="#accordionExample">
                     @foreach($menu['sub_menu'] as $subMenu)
                     <li class="{{ ($subMenu['url'] === $page_name) ? 'active' : '' }}">
-                        <a href="{{route($subMenu['url'].'.index')}}"> {{ucwords($subMenu['title'])}} </a>
+                        <a href="{{route($subMenu['url'].'.index')}}"> {{ucwords(str_replace('_', ' ',$subMenu['title']))}} </a>
                     </li>
                     @endforeach
                 </ul>
