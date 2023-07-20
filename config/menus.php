@@ -67,15 +67,16 @@ return [
             'caret' => true,
             'sub_menu' => [
                 [
+                    'id' => 'barang_keluar',
+                    'url' => 'barang_keluar',
+                    'title' => 'kasir'
+                ],
+                [
                     'id' => 'data_penjualan',
                     'url' => 'data_penjualan',
                     'title' => 'data_penjualan'
                 ],
-                [
-                    'id' => 'kasir',
-                    'url' => 'kasir',
-                    'title' => 'kasir'
-                ]
+
             ]
         ],
         [

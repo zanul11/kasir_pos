@@ -61,7 +61,7 @@
                 <div class="page-header">
                     <nav class="breadcrumb-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            {!!($category_name!=$page_name)? '<b>'.ucwords(str_replace('_', ' ',$category_name)).'</b>'. '&nbsp;/ '.ucwords($page_name):''!!}
+                            {!!($category_name!=$page_name)? '<b>'.ucwords(str_replace('_', ' ',$category_name)).'</b>'. '&nbsp;/ '.ucwords(str_replace('_', ' ',$page_name)):''!!}
                         </ol>
                     </nav>
 

@@ -107,6 +107,7 @@ class BarangMasukController extends Controller
             'id' => $id
         ]);
     }
+
     public function store(Request $request)
     {
         // return $request;
@@ -151,25 +152,19 @@ class BarangMasukController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(BarangMasuk $barangMasuk)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, BarangMasuk $barangMasuk)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(BarangMasuk $barang_masuk)
     {
         try {

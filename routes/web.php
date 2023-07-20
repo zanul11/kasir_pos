@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Auth;
@@ -52,9 +54,16 @@ Route::middleware('auth:web')->group(function () {
         ->name('barang_masuk.export');
     Route::resource('barang_masuk', BarangMasukController::class);
 
+    Route::prefix('barang_keluar')->group(function () {
+        Route::get('/tambahbarang/{id}', [BarangKeluarController::class, 'tambah_barang']);
+    });
+    Route::resource('barang_keluar', BarangKeluarController::class);
 
-    Route::resource('data_penjualan', SatuanController::class);
-    Route::resource('kasir', SatuanController::class);
+    Route::get('data_penjualan/export', [PenjualanController::class, 'export'])
+        ->name('data_penjualan.export');
+    Route::get('data_penjualan/data', [PenjualanController::class, 'data'])
+        ->name('data_penjualan.data');
+    Route::resource('data_penjualan', PenjualanController::class);
 
 
     Route::resource('informasi', HomeController::class);
