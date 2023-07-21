@@ -41,7 +41,9 @@ class BarangMasukController extends Controller
 
 
         return DataTables::of($data)
-
+            ->addColumn('supplier', function ($data) {
+                return $data->supplier->nama ?? '-';
+            })
             ->addColumn('barang_detal', function ($data) {
                 $table = '<center><table class=" table-bordered table-striped" style="color:black">
                 <tHead>

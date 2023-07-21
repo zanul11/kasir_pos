@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-xs-12 form-group">
                                     <p>Stok Awal</p>
-                                    <input id="stok" type="number" name="stok" class="form-control" value="{{ old('stok',$barang->stok??'') }}" required>
+                                    <input id="stok_awal" type="number" name="stok_awal" class="form-control" value="{{ old('stok_awal',$barang->stok_awal??'') }}" {{ request()->routeIs('barang.create')?'required' : 'readonly' }}>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12 form-group">
                                     <p>Harga Jual</p>

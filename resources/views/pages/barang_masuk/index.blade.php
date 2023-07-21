@@ -111,8 +111,8 @@
                 data: 'updated_at',
                 name: 'updated_at'
             }, {
-                data: 'supplier.nama',
-                name: 'supplier.nama'
+                data: 'supplier',
+                name: 'supplier'
             },
             {
                 data: 'barang_detal',
