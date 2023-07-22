@@ -21,6 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // new route
 Route::post('login', [ApiController::class, 'login']);
-Route::get('getLokasiUser/{id}', [ApiController::class, 'getLokasiUser']);
-Route::get('absenPegawai/{id}', [ApiController::class, 'absenPegawai']);
-Route::get('getAbsenPegawai/{id}', [ApiController::class, 'getAbsenPegawai']);
+Route::get('getBarang', [ApiController::class, 'getBarang']);
+Route::get('getPelanggan', [ApiController::class, 'getPelanggan']);
