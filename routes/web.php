@@ -68,11 +68,13 @@ Route::middleware('auth:web')->group(function () {
     Route::resource('data_penjualan', PenjualanController::class);
 
     //LAPORAN KARTU STOK
+    Route::get('kartu_stok/export', [KartuStokController::class, 'export'])
+        ->name('kartu_stok.export');
     Route::resource('kartu_stok', KartuStokController::class);
 
     //LAPORAN KEUANGAN
-    Route::get('keuangan/data', [KeuanganController::class, 'data'])
-        ->name('keuangan.data');
+    Route::get('keuangan/export', [KeuanganController::class, 'export'])
+        ->name('keuangan.export');
     Route::resource('keuangan', KeuanganController::class);
 
     Route::resource('informasi', HomeController::class);

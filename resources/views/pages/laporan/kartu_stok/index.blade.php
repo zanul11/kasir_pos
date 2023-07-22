@@ -20,8 +20,9 @@
                     <!-- <h5 class="">Data {{ucwords($page_name)}}</h5> -->
                     <h3 class="">Data {{ucwords(str_replace('_', ' ',$page_name))}}</h3>
                     <div>
-                        <a href="" class="mt-2 edit-profile2" style="float: right; margin-left: 10px;">
-                            <i data-feather="printer"></i></a>
+                        <a href="#" onclick="printKartu()" class="mt-2 edit-profile" style="float: right; margin-left: 10px;">
+                            <i data-feather="printer"></i></a><a href="{{route('kartu_stok.export')}}" class="mt-2 edit-profile2">
+                            <i data-feather="file"></i></a>
                     </div>
 
                 </div><br>
@@ -48,9 +49,14 @@
                     </div>
                 </form>
                 @php
-                $nama_barang = ''; $stok = 0;
+                $i='A';
+                $x=1;
+                $nama_barang = '';
+                $stok = 0;
+                $pembelian = 0;
+                $penjualan = 0;
                 @endphp
-                <div class="table-responsive">
+                <div class="table-responsive" id="tableKartuStok">
                     <table class="table table-bordered table-hover table-striped mb-4 " style="width: 100% !important; font-size:8px">
                         @if(Cache::has('barang_id') && Cache::get('barang_id') != 'semua')
                         <thead>
@@ -73,27 +79,33 @@
                         </thead>
                         <tbody>
                             @foreach($data as $key => $dt)
-
                             @if($nama_barang!=$dt['nama'])
                             @php
+                            $x=1;
+                            $total_masuk =0;
+                            $total_keluar=0;
+                            $pembelian=0;
+                            $penjualan=0;
                             $stok = $dt['stok_awal'];
                             $nama_barang = $dt['nama'];
                             @endphp
                             <tr>
-
-                                <td colspan="6"><b>{{$dt['nama']}} </b></td>
-                                <td colspan="5"><b>Stok Awal : {{$dt['stok_awal']}}</b></td>
-
+                                <td rowspan="2">{{$i}}</td>
+                                <td colspan="11" class="text-left"><b>{{$dt['nama']}} </b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="11" class="text-left"><b>Stok Awal : {{$dt['stok_awal']}}</b></td>
                             </tr>
                             @endif
-
                             <tr>
-                                <td>{{$key+1}}</td>
+                                <td>{{$x++}}</td>
                                 <td>{{$dt['tanggal']}}</td>
                                 <td>{{$dt['status']}}</td>
                                 @if($dt['status']=='Pembelian')
                                 @php
                                 $stok +=$dt['qty'];
+                                $pembelian+=($dt['qty']*$dt['harga']);
+                                $total_masuk+=$dt['qty'];
                                 @endphp
                                 <td>{{$dt['qty']}}</td>
                                 <td>{{number_format($dt['harga'])}}</td>
@@ -105,7 +117,9 @@
                                 <td>{{$stok}}</td>
                                 @else
                                 @php
+                                $total_keluar+=$dt['qty'];
                                 $stok -=$dt['qty'];
+                                $penjualan+=($dt['qty']*($dt['harga']-$dt['diskon']));
                                 @endphp
                                 <td></td>
                                 <td></td>
@@ -117,16 +131,34 @@
                                 <td>{{$stok}}</td>
                                 @endif
                             </tr>
-
+                            @if($nama_barang!=$dt['nama'])
+                            @php
+                            $i++;
+                            @endphp
+                            @endif
                             @endforeach
+                            <tr>
+                                <td colspan="3" style="background-color: grey; color: white;"><b>TOTAL</b></td>
+                                <td style="background-color: grey; color: white;"><b>{{$total_masuk}}</b></td>
+                                <td style="background-color: grey;"></td>
+                                <td style="background-color: grey; color: white;"><b>{{number_format($pembelian)}}</b></td>
+                                <td style="background-color: grey; color: white;"><b>{{$total_keluar}}</b></td>
+                                <td style="background-color: grey;"></td>
+                                <td style="background-color: grey;"></td>
+                                <td style="background-color: grey; color: white;"><b>{{number_format($penjualan)}}</b></td>
+                                <td style="background-color: grey; color: white;">{{$stok}}</td>
+                            </tr>
                         </tbody>
+                        <tfoot>
+
+                        </tfoot>
                         @else
                         <thead>
                             <tr>
                                 <th style="width: 5%" rowspan="2">#</th>
                                 <th class="text-center" rowspan="2">Nama Barang</th>
                                 <th class="text-center" rowspan="2">Satuan</th>
-                                <th class="text-center" colspan="3">Kartu Barang</th>
+                                <th class="text-center" colspan="4">Kartu Barang</th>
                             </tr>
                             <tr>
                                 <th class="text-center">Stok</th>
@@ -165,6 +197,7 @@
 <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
 <script src="{{asset('plugins/flatpickr/flatpickr.js')}}"></script>
 <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
+<script src="{{asset('assets/js/printThis.js')}}"></script>
 <script>
     $('#barang_id').select2({
         placeholder: "Pilih Barang"
@@ -174,6 +207,15 @@
         dateFormat: "d-m-Y",
 
     });
+
+    function printKartu() {
+        $('#tableKartuStok').printThis({
+            header: "<center><h4>Laporan Kartu Stok</h4>" +
+                "<h5>{{$nama_barang}}</h5>" +
+                "Periode : {{Cache::get('dTgl')}} s.d {{Cache::get('sTgl')}}" +
+                "</center><br>"
+        });
+    }
 </script>
 
 @endpush

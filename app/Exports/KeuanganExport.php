@@ -1,39 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Exports;
 
-use App\Exports\KeuanganExport;
 use App\Models\Barang;
 use App\Models\BarangKeluarDetail;
 use App\Models\BarangMasukDetail;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;
-use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class KeuanganController extends Controller
+class KeuanganExport implements FromView
 {
-    protected   $data = [
-        'category_name' => 'laporan',
-        'page_name' => 'keuangan',
-    ];
-
-    public function index()
+    public function view(): View
     {
-        if (isset(request()->tanggal)) {
-            $tanggal = (explode("to", str_replace(' ', '', request()->tanggal)));
-            Cache::put('dTgl', $tanggal[0]);
-            Cache::put('sTgl', $tanggal[1] ?? $tanggal[0]);
-        } else {
-            Cache::put('dTgl', date('01-m-Y'));
-            Cache::put('sTgl', date('d-m-Y'));
-        }
-        $nama_barang = 'Semua';
-        $barangs = Barang::orderby('nama')->get();
-        if (isset(request()->barang_id)) {
-            Cache::put('barang_id', request()->barang_id);
-            $nama_barang = Barang::where('id', request()->barang_id)->first()->nama ?? '';
-        } else {
-            Cache::forget('barang_id');
-        }
+        $data = null;
         $barangs = Barang::orderBy('nama')->get();
         $data = [];
         if (Cache::has('barang_id') && Cache::get('barang_id') != 'semua') {
@@ -139,12 +119,8 @@ class KeuanganController extends Controller
                 ])->values()->all();
             }
         }
-        // return $data;
-        return view('pages.laporan.keuangan.index', compact('barangs', 'data', 'nama_barang'))->with($this->data);
-    }
-
-    public function export()
-    {
-        return Excel::download(new KeuanganExport, 'Keuangan_' . time() . '.xlsx');
+        return view('excel.export.keuangan', [
+            'keuangan' => $data,
+        ]);
     }
 }

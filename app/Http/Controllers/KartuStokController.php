@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\KartuStokExport;
 use App\Models\Barang;
 use App\Models\BarangKeluarDetail;
 use App\Models\BarangMasukDetail;
-use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Cache;
 
 class KartuStokController extends Controller
@@ -25,10 +26,11 @@ class KartuStokController extends Controller
             Cache::put('dTgl', date('01-m-Y'));
             Cache::put('sTgl', date('d-m-Y'));
         }
-
+        $nama_barang = 'Semua';
         $barangs = Barang::orderby('nama')->get();
         if (isset(request()->barang_id)) {
             Cache::put('barang_id', request()->barang_id);
+            $nama_barang = Barang::where('id', request()->barang_id)->first()->nama ?? '';
         } else {
             Cache::forget('barang_id');
         }
@@ -113,38 +115,13 @@ class KartuStokController extends Controller
         }
 
         // return $data;
-        return view('pages.laporan.kartu_stok.index', compact('barangs', 'data'))->with($this->data);
+        return view('pages.laporan.kartu_stok.index', compact('barangs', 'data', 'nama_barang'))->with($this->data);
     }
 
 
-    public function create()
+    public function export()
     {
-        //
-    }
 
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        return Excel::download(new KartuStokExport, 'Kartu_stok_' . time() . '.xlsx');
     }
 }
