@@ -40,12 +40,27 @@ class ApiController extends Controller
             'content' => Barang::with('satuan')->orderBy('nama')->get()
         ]);
     }
+
     public function getPelanggan()
     {
         return response()->json([
             'response_code' => 200,
             'message' => 'success',
             'content' => Pelanggan::orderBy('nama')->get()
+        ]);
+    }
+
+    public function getPenjualan(Request $request)
+    {
+        $from = date('Y-m-d', strtotime($request->dTgl));
+        $to = date('Y-m-d', strtotime($request->sTgl));
+        $penjualan = BarangKeluar::with(['barangKeluarDetail.barang', 'pelanggan'])
+            ->whereBetween('tanggal', [$from, $to])->orderBy('tanggal', 'desc')
+            ->get();
+        return response()->json([
+            'response_code' => 200,
+            'message' => 'success',
+            'content' => $penjualan
         ]);
     }
 
