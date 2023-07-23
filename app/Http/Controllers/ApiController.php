@@ -47,4 +47,14 @@ class ApiController extends Controller
             'content' => Pelanggan::orderBy('nama')->get()
         ]);
     }
+
+    public function savePenjualan(Request $request)
+    {
+        return $request;
+        return response()->json([
+            'response_code' => 200,
+            'message' => 'success',
+            'content' => Pelanggan::orderBy('nama')->get()
+        ]);
+    }
 }
