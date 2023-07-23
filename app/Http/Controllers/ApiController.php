@@ -17,17 +17,17 @@ class ApiController extends Controller
     {
         $login = Auth::attempt($request->all());
         if ($login) {
-            $user = User::where('username', $request->username)->with('lokasi')->first();
+            $user = User::where('username', $request->username)->first();
             return response()->json([
                 'response_code' => 200,
                 'message' => 'Login Berhasil',
-                'conntent' => $user
+                'content' => $user
             ]);
         } else {
             return response()->json([
                 'response_code' => 404,
                 'message' => 'Username atau Password Tidak Ditemukan!',
-                'conntent' => null
+                'content' => null
             ]);
         }
     }
