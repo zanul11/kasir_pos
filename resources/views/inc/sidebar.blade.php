@@ -9,7 +9,9 @@
     case 'admin' :
     $masterMenu = config('menus.menu_admin');
     break;
-
+    case 'kasir' :
+    $masterMenu = config('menus.menu_kasir');
+    break;
     default :
     $masterMenu = config('menus.menu_super');
 
