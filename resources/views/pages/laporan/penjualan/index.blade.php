@@ -18,7 +18,7 @@
                     <!-- <h5 class="">Data {{ucwords($page_name)}}</h5> -->
                     <h3 class="">{{ucwords(str_replace('_', ' ',$page_name))}}</h3>
                     <div>
-                        <a onclick="printPenjualan()" class="mt-2 edit-profile">
+                        <a href="#" onclick="printPenjualan()" class="mt-2 edit-profile">
                             <i data-feather="printer"></i></a>
                     </div>
 
@@ -63,7 +63,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                            $total=0;
+                            @endphp
                             @foreach($data as $data)
+                            @php
+                            $total+=$data->total_tagihan;
+                            @endphp
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$data->updated_at}}</td>
@@ -94,12 +100,10 @@
                                     </table>
                                 </td>
                             </tr>
-
-
                             @endforeach
                             <tr>
                                 <td colspan="4"><b>Total</b></td>
-                                <td><b>{{number_format($data->sum('total_tagihan'))}}</b></td>
+                                <td><b>{{number_format($total)}}</b></td>
                                 <td><b></b></td>
                             </tr>
                         </tbody>
