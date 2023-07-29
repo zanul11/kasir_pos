@@ -87,6 +87,11 @@ return [
             'caret' => true,
             'sub_menu' => [
                 [
+                    'id' => 'penjualan',
+                    'url' => 'penjualan',
+                    'title' => 'penjualan'
+                ],
+                [
                     'id' => 'kartu_stok',
                     'url' => 'kartu_stok',
                     'title' => 'kartu_stok'
@@ -166,6 +171,11 @@ return [
             'url' => 'laporan',
             'caret' => true,
             'sub_menu' => [
+                [
+                    'id' => 'penjualan',
+                    'url' => 'penjualan',
+                    'title' => 'penjualan'
+                ],
                 [
                     'id' => 'kartu_stok',
                     'url' => 'kartu_stok',

@@ -7,6 +7,7 @@ use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KartuStokController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\LaporanPenjualanController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PenjualanController;
@@ -76,6 +77,9 @@ Route::middleware('auth:web')->group(function () {
     Route::get('keuangan/export', [KeuanganController::class, 'export'])
         ->name('keuangan.export');
     Route::resource('keuangan', KeuanganController::class);
+
+    Route::resource('penjualan', LaporanPenjualanController::class);
+
 
     Route::resource('informasi', HomeController::class);
 });
