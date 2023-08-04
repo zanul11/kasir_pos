@@ -83,21 +83,17 @@
                                         <button type="submit" class="btn btn-primary" value="">{{ __('Login') }}</button>
                                     </div>
                                 </div>
-
                                 <div class="division">
                                     <span> &#169; {{date('Y')}} {{env('APP_NAME')}} </span>
                                 </div>
-
                             </div>
                         </form>
-
+                        <center> <a href="{{asset('pos_kute/public/kasir.apk')}}" class="btn btn-danger">Download APK</a></center>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
     <script src="{{asset('assets/js/libs/jquery-3.1.1.min.js')}}"></script>
     <script src="{{asset('bootstrap/js/popper.min.js')}}"></script>
     <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>

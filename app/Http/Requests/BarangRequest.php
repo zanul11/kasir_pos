@@ -27,7 +27,6 @@ class BarangRequest extends FormRequest
             "nama" => ["required", "string"],
             "satuan_id" => ["required", "exists:satuans,id"],
             "stok_min" => ["numeric", "string"],
-            "stok" => ["numeric", "string"],
             "stok_awal" => ["numeric", "string"],
             "harga_jual" => ["required", "string"],
             "keterangan" => ["required", "string"],
@@ -39,7 +38,6 @@ class BarangRequest extends FormRequest
     {
         $this->merge([
             'user' => Auth::user()->name,
-            'stok' => $this->stok_awal,
             'harga_jual' =>  str_replace(',', '', $this->harga_jual),
         ]);
     }

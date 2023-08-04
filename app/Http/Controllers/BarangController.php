@@ -54,7 +54,7 @@ class BarangController extends Controller
     public function store(BarangRequest $request)
     {
         try {
-            Barang::create($request->validated());
+            Barang::create($request->validated() + ['stok' => $request->stok_awal]);
             alert()->success('Success !!', 'Data berhasil disimpan');
             return redirect()->route('barang.index');
         } catch (\Throwable $th) {
