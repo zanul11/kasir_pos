@@ -53,6 +53,8 @@
                 $x=1;
                 $nama_barang = '';
                 $stok = 0;
+                $total_masuk =0;
+                $total_keluar=0;
                 $pembelian = 0;
                 $penjualan = 0;
                 @endphp
