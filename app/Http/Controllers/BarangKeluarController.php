@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\BarangKeluar;
 use App\Models\BarangKeluarDetail;
+use App\Models\BarangMasukDetail;
 use App\Models\Pelanggan;
 use App\Models\Retur;
 use App\Models\ReturDetail;
@@ -67,7 +68,7 @@ class BarangKeluarController extends Controller
 
             foreach ($request->barang_keluar as $barang) {
                 $data_barang = Barang::where('id', $barang['barang_id'])->first();
-                $get_stok_now = $data_barang->stok ?? 0;
+                $get_stok_now = $data_barang->stok_awal + BarangMasukDetail::where('barang_id', $data_barang->id)->sum('jumlah') - BarangKeluarDetail::where('barang_id', $data_barang->id)->sum('jumlah');
                 if ($get_stok_now < $barang['qty']) {
                     //cek stok masih ada dengan pembelian
                     BarangKeluar::where('id', $barang_keluar->id)->delete();

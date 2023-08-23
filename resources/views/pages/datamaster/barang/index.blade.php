@@ -25,6 +25,7 @@
                                 <th>Nama</th>
                                 <th>Stok Minimal</th>
                                 <th>Stok Sekarang</th>
+                                <th>Stok Operasi</th>
                                 <th>Satuan</th>
                                 <th>Harga Jual</th>
                                 <th>Ket</th>
@@ -84,6 +85,9 @@
                 name: 'stok_min'
             }, {
                 data: 'stok',
+                name: 'stok'
+            },{
+                data: 'current_stok',
                 name: 'stok'
             }, {
                 data: 'satuan.nama',

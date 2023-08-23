@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BarangRequest;
 use App\Models\Barang;
+use App\Models\BarangKeluarDetail;
+use App\Models\BarangMasukDetail;
 use App\Models\Satuan;
 use  Yajra\Datatables\DataTables;
 
@@ -23,6 +25,11 @@ class BarangController extends Controller
             ->addColumn('user_detail', function ($data) {
                 return '<small> ' . $data->user . '</br>' . $data->updated_at . '</small>';
             })
+            ->addColumn('current_stok', function ($data) {
+                $penjualan = BarangKeluarDetail::where('barang_id', $data->id)->sum('jumlah');
+                $pembelian = BarangMasukDetail::where('barang_id', $data->id)->sum('jumlah');
+                return $data->stok_awal + $pembelian - $penjualan;
+            })
             ->addColumn('harga', function ($data) {
                 return number_format($data->harga_jual);
             })
@@ -36,7 +43,7 @@ class BarangController extends Controller
 
                 return $edit . '  ' . $delete;
             })
-            ->rawColumns(['action', 'user_detail', 'harga'])
+            ->rawColumns(['action', 'user_detail', 'harga', 'current_stok'])
             ->make(true);
     }
 
