@@ -84,9 +84,6 @@
                 data: 'stok_min',
                 name: 'stok_min'
             }, {
-                data: 'stok',
-                name: 'stok'
-            },{
                 data: 'current_stok',
                 name: 'stok'
             }, {
