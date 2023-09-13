@@ -87,7 +87,7 @@ class ApiController extends Controller
 
             foreach (json_decode($request->penjualans) as $barang) {
                 $data_barang = Barang::where('id', $barang->barang_id)->first();
-                $get_stok_now = $data_barang->stok_awal + BarangMasukDetail::where('barang_id', $data_barang->barang_id)->sum('jumlah') - BarangKeluarDetail::where('barang_id', $data_barang->barang_id)->sum('jumlah');
+                $get_stok_now = $data_barang->stok_awal + BarangMasukDetail::where('barang_id', $data_barang->id)->sum('jumlah') - BarangKeluarDetail::where('barang_id', $data_barang->id)->sum('jumlah');
                 if ($get_stok_now < $barang->qty) {
                     BarangKeluar::where('id', $barang_keluar->id)->delete();
                     //stok kurang
