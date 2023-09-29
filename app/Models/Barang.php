@@ -15,4 +15,11 @@ class Barang extends Model
     {
         return $this->belongsTo(Satuan::class, 'satuan_id');
     }
+
+    public function getStokAttribute()
+    {
+        $penjualan = BarangKeluarDetail::where('barang_id', $this->id)->sum('jumlah');
+        $pembelian = BarangMasukDetail::where('barang_id', $this->id)->sum('jumlah');
+        return $this->stok_awal + $pembelian - $penjualan;
+    }
 }
