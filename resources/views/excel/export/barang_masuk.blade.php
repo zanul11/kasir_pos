@@ -14,7 +14,7 @@
             <td>{{$loop->iteration}}</td>
             <td>{{$dt->id}}</td>
             <td>{{$dt->updated_at}}</td>
-            <td>{{$dt->supplier->nama}}</td>
+            <td>{{$dt->supplier->nama??''}}</td>
             <td>
                 <table>
                     <tbody>

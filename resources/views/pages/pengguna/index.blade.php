@@ -3,6 +3,7 @@
 @push('style')
 <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/dt-global_style.css')}}">
+<link href="{{asset('assets/css/tables/table-basic.css')}}" rel="stylesheet" type="text/css" />
 
 @endpush
 @section('content')
