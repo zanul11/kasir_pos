@@ -51,11 +51,11 @@ class LaporanPenjualanController extends Controller
         }
 
         if (Cache::has('cari')) {
-            $data->with('pelanggan')->whereHas('pelanggan', function ($query) {
+            $data->whereHas('pelanggan', function ($query) {
                 return $query->where('nama', 'like', '%' . Cache::get('cari') . '%');
             })->orderBy('created_at', 'desc');
         } else {
-            $data->with('pelanggan')->orderBy('created_at', 'desc');
+            $data->orderBy('created_at', 'desc');
         }
 
         $data = $data->get();

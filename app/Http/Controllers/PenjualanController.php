@@ -28,19 +28,17 @@ class PenjualanController extends Controller
         }
 
         if (Cache::has('cari')) {
-            $data->with('pelanggan')->whereHas('pelanggan', function ($query) {
+            $data->whereHas('pelanggan', function ($query) {
                 return $query->where('nama', 'like', '%' . Cache::get('cari') . '%');
             })->orderBy('created_at', 'desc');
         } else {
-            $data->with('pelanggan')->orderBy('created_at', 'desc');
+            $data->orderBy('created_at', 'desc');
         }
 
 
         return DataTables::of($data)
             ->addColumn('total_tagihan_penjualan', function ($data) {
                 return number_format($data->total_tagihan);
-            })->addColumn('pelanggan', function ($data) {
-                return $data->pelanggan->nama ?? '-';
             })
             ->addColumn('barang_detail', function ($data) {
                 $table = '<center><table class=" table-bordered table-striped" style="color:black">
@@ -71,7 +69,7 @@ class PenjualanController extends Controller
 
                 return  $print . ' ' . $edit . ' ' . $delete;
             })
-            ->rawColumns(['action', 'barang_detail', 'total_tagihan_penjualan', 'pelanggan'])
+            ->rawColumns(['action', 'barang_detail', 'total_tagihan_penjualan'])
             ->make(true);
     }
 

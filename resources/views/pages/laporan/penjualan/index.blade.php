@@ -73,7 +73,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$data->updated_at}}</td>
-                                <td>{{$data->pelanggan->nama??'-'}}</td>
+                                <td>{{$data->pelanggan??'-'}}</td>
                                 <td>{{$data->keterangan}}</td>
                                 <td>{{number_format($data->total_tagihan)}}</td>
                                 <td>

@@ -18,10 +18,10 @@ class BarangKeluar extends Model
         return $this->hasMany(BarangKeluarDetail::class, 'barang_keluar_id');
     }
 
-    public function pelanggan()
-    {
-        return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
-    }
+    // public function pelanggan()
+    // {
+    //     return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
+    // }
 
     public function getUpdatedAtAttribute($value)
     {

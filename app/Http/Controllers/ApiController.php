@@ -79,8 +79,9 @@ class ApiController extends Controller
         try {
             $barang_keluar = BarangKeluar::create([
                 'tanggal' => date('Y-m-d'),
-                'keterangan' => 'Kasir Mobile',
+                'keterangan' => $request->keterangan ?? '-',
                 'pelanggan_id' => $request->pelanggan_id,
+                'pelanggan' => $request->pelanggan,
                 'total_tagihan' => 0,
                 'user' => $user
             ]);
