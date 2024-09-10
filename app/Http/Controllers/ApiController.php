@@ -55,7 +55,7 @@ class ApiController extends Controller
     {
         $from = date('Y-m-d', strtotime($request->dTgl));
         $to = date('Y-m-d', strtotime($request->sTgl));
-        $penjualan = BarangKeluar::with(['barangKeluarDetail.barang', 'pelanggan'])
+        $penjualan = BarangKeluar::with(['barangKeluarDetail.barang'])
             ->whereBetween('tanggal', [$from, $to])->orderBy('tanggal', 'desc')
             ->get();
         return response()->json([

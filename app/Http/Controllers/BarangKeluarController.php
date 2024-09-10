@@ -62,6 +62,7 @@ class BarangKeluarController extends Controller
                 'tanggal' => date('Y-m-d', strtotime($request->tanggal)),
                 'keterangan' => $request->keterangan ?? '-',
                 'pelanggan_id' => $request->pelanggan_id,
+                'pelanggan' => Pelanggan::where('id', $request->pelanggan_id)->first()->nama ?? '-',
                 'total_tagihan' => 0,
                 'user' => $user
             ]);

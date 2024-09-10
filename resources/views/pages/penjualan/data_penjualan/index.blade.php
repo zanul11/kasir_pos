@@ -50,7 +50,7 @@
                                 <th style="width: 5%">#</th>
                                 <!-- <th>Kode</th> -->
                                 <th class="text-center">Waktu Input</th>
-                                <th class="text-center">Pelanggan</th>
+                                <!-- <th class="text-center">Pelanggan</th> -->
                                 <th class="text-center">Keterangan</th>
                                 <th class="text-center">Total</th>
                                 <th class="text-center">Barang</th>
@@ -108,10 +108,12 @@
             {
                 data: 'updated_at',
                 name: 'updated_at'
-            }, {
-                data: 'pelanggan',
-                name: 'pelanggan'
-            }, {
+            }, 
+            // {
+            //     data: 'pelanggan',
+            //     name: 'pelanggan'
+            // },
+             {
                 data: 'keterangan',
                 name: 'keterangan'
             }, {

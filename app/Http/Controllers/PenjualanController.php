@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\PenjualanExport;
 use App\Models\BarangKeluar;
+use App\Models\BarangKeluarCopy;
 use Illuminate\Http\Request;
 use  Yajra\Datatables\DataTables;
 use Illuminate\Support\Str;
@@ -23,14 +24,21 @@ class PenjualanController extends Controller
             $from = date('Y-m-d', strtotime(Cache::get('dTgl')));
             $to = date('Y-m-d', strtotime(Cache::get('sTgl')));
             $data =  BarangKeluar::with('barangKeluarDetail.barang')->whereBetween('tanggal', [$from, $to]);
+            if (date('m', strtotime(Cache::get('dTgl'))) == 7 && date('Y', strtotime(Cache::get('dTgl'))) == '2024') {
+                $data =  BarangKeluarCopy::with('barangKeluarDetail.barang')->whereBetween('tanggal', [$from, $to]);
+            }
         } else {
             $data =  BarangKeluar::with('barangKeluarDetail.barang');
+            if (date('m', strtotime(Cache::get('dTgl'))) == 7 && date('Y', strtotime(Cache::get('dTgl'))) == '2024') {
+                $data =  BarangKeluarCopy::with('barangKeluarDetail.barang');
+            }
         }
 
         if (Cache::has('cari')) {
-            $data->whereHas('pelanggan', function ($query) {
-                return $query->where('nama', 'like', '%' . Cache::get('cari') . '%');
-            })->orderBy('created_at', 'desc');
+            // $data->whereHas('pelanggan', function ($query) {
+            //     return $query->where('nama', 'like', '%' . Cache::get('cari') . '%');
+            // })->orderBy('created_at', 'desc');
+            $data->where('keterangan', 'like', '%' . Cache::get('cari') . '%');
         } else {
             $data->orderBy('created_at', 'desc');
         }
@@ -90,6 +98,8 @@ class PenjualanController extends Controller
         } else {
             Cache::forget('cari');
         }
+
+        // return   $from = date('m', strtotime(Cache::get('dTgl'))) == 7 ? 'Juli' : 'tidak';
         return view('pages.penjualan.data_penjualan.index')->with($this->data);
     }
 
